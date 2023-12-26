@@ -274,7 +274,7 @@ Under the regional setting you need to select the correct frequency plan or your
 
 Want to give a word of caution here to the settings in US and AUS. Here I have seen a lot of mismatches between the gateway settings and the node. 
 
-In the US TTN uses us915 and that is FSB2, I have not tested '-D CFG_us915=1' I understand this is the correct one to use.
+In the US TTN uses us915 FSB2, '-D CFG_us915=1' please ensure the gateway matches the settings on the node.
 
 In AUS there are 3 different bands, so caution needed here as to the correct band to use. It will be one of '-D CFG_as923=1', -D CFG_as923jp=1 or -D CFG_au915=1. Dependant on the deployed of the gateway it possibly can be any of the 3. Lucky thought a number of community members deploying gateways use duel band ones. Supporting both as923 and au915 bands.
 
