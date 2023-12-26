@@ -38,11 +38,11 @@ With these conditions met the node airtime will be 46.3ms for each uplink. The n
 
 On the other hand, the node are still using EU868, overhead of 13 bytes and a payload of 2 byte. This time the node is far from the gateway, this will result in a low RSSI and possibly the SNR are also low. Now the node can expect an SF10.
 
-With these conditions the node airtime will be 329.7ms for each uplink. The node will be allowed to transmit every 1899.2s to keep in FUP
+With these conditions the node airtime will be 329.7ms for each uplink. The node will be allowed to transmit every 949.6s to keep in FUP
 
 We have to also take into consideration that if the node is relevantly close to the gateway. The node can still experience a poor SNR resulting in a low SF like SF11. This will have an impact on the allowed transmit rate to keep within FUP.
 
-This mentored we are assuming the SF rate to calculate the rate of transmission to keep with in FUP.
+With this mentored we are assuming the SF rate to calculate the rate of transmission to keep with in FUP.
 
 ### 1.2 Air Time Calculation via TTN JSON
 
