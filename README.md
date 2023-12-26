@@ -14,6 +14,7 @@ This is an adaption to LMIC-node to explain how to stay within TTN-Sandbox regul
     - [3.1 Board Selection](###3.1-board-selection)
     - [3.2 MCCI LoRaWAN LMIC library Settings](###3.2-mcci-lorawan-lmic-library-settings)
     - [3.3 Board Specific Settings](###3.3-board-specific-settings)
+    - [3.4 LoRaWAN Keys](###3.4-lorawan-keys)
 
 ## 1 Fair Use Policy
 
@@ -208,7 +209,7 @@ We still need to take care that the rssi is not the high as this will cause chan
 
 ### 3.1 Board Selection
 
-In the platformio.ini we need to select the correct board as to the one we are going to use. I have a ttgo_t_beam_v1 so this id the boar I will be using. Make sure you comment  the <platformio.ini board selector guard> and uncomment the appropriate board of your choice.
+In the platformio.ini we need to select the correct board as to the one we are going to use. I have a TTGO T-Beam V1 so this id the boar I will be using. Make sure you comment  the <platformio.ini board selector guard> and uncomment the appropriate board of your choice.
 
 ```ini
 [platformio]
@@ -254,7 +255,7 @@ default_envs =
 ```
 
 ### 3.2 MCCI LoRaWAN LMIC library Settings
-Under the regional setting you need to select the correct frequency plan or your region, I am the 'EU868'. You will see that I have uncommented the appropriate plan.
+In the platformio.ini under the regional setting you need to select the correct frequency plan or your region, I am the 'EU868'. You will see that I have uncommented the appropriate plan.
 
 ```ini
     ; --- Regional settings -----
@@ -279,6 +280,12 @@ In the US TTN uses us915 FSB2, '-D CFG_us915=1' please ensure the gateway matche
 In AUS there are 3 different bands, so caution needed here as to the correct band to use. It will be one of '-D CFG_as923=1', -D CFG_as923jp=1 or -D CFG_au915=1. Dependant on the deployed of the gateway it possibly can be any of the 3. Lucky thought a number of community members deploying gateways use duel band ones. Supporting both as923 and au915 bands.
 
 ### 3.3 Board Specific Settings
+In the platformio.ini all the available options you can set on each board are listed separately.
+
+As indicated earlier we are using a TTGO T-Beam V1. We can adjust the serial port, power management, OLED use and the pins used.
+
+I this example we are going to leave everything as default and just ensure the OLED are activated as we have one. We want to see some of the data from the network as the node joins and sending and receiving uplinks and downlinks.
+
 ```ini
 [env:ttgo_t_beam_v1]
 ; TTGO T-Beam (aka T22) V1.0, V1.1 (ESP32).
@@ -303,4 +310,24 @@ build_flags =
     -D USE_SERIAL
     ; -D USE_LED                 ; NO ONBOARD USER LED CAN NOT USE THIS OPTION
     -D USE_DISPLAY              ; Requires external I2C OLED display  
-    ```
+```
+
+### 3.4 LoRaWAN Keys
+In the keys files folder there is a lorawan-keys_example.h, we need to copy this flie and name the new file lorawan-keys.h.
+
+Here we need to specify the OTAA_DEVEUI, OTAA_APPEUI and OTAA_APPKEY keys since our example are going to be configured in the OTAA mode.
+
+```cpp
+// Keys required for OTAA activation:
+
+// End-device Identifier (u1_t[8]) in lsb format
+#define OTAA_DEVEUI 0xCE, 0xDE, 0xED, 0xCA, 0xAA, 0xFA, 0xED, 0xEE
+
+// Application Identifier (u1_t[8]) in lsb format
+#define OTAA_APPEUI 0xCE, 0xDE, 0xED, 0xCA, 0xAA, 0xFA, 0xED, 0xEE
+
+// Application Key (u1_t[16]) in msb format
+#define OTAA_APPKEY 0x0F, 0xB0, 0xD8, 0x0B, 0x80, 0x06, 0x0D, 0x00, 0x24, 0x01, 0x70, 0x1A, 0x00, 0x80, 0x6C, 0x0E
+```
+
+Here we need to pay attention to the order of the bytes. OTAA_DEVEUI and OTAA_APPEUI are both LSB format. And OTAA_APPKEY is in the MSB format.
