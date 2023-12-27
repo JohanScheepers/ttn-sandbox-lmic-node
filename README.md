@@ -381,3 +381,4 @@ Now we can connect the TTGO to the appropriate serial port, compile and upload t
 Start the serial monitor and you will see the messages flow.
 ![Alt text](images/join.gif)
 
+![Alt text](images/application-console-log.PNG)
