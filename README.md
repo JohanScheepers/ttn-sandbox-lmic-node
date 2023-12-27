@@ -33,15 +33,15 @@ The air time is the time the node takes to transit the LoRaWAN packet
 | Preamble  | PHDR | PHDR_CRC | PHYPayload | CRC |
 | --- | --- | --- | ---| --- |
 
-The convenient way to do this is to use https://avbentem.github.io/airtime-calculator/ttn/eu868/2 site.
+The convenient way to calculate this to use this web site to assist us https://avbentem.github.io/airtime-calculator/ttn/eu868/2 site.
 
 Here we need to complete the region, overhead size and payload size.
 
-If we assume you are using EU868, overhead of 13 bytes and a payload of 2 bytes. The node are fairly close to the gateway giving a good RSSI and low noise levels. The node can expect a SF7.
+If we assume you are using EU868, overhead of 13 bytes and a payload of 2 bytes. The node are fairly close to the gateway having a good RSSI and low noise levels. The node can expect a SF7.
 
 With these conditions met the node airtime will be 46.3ms for each uplink. The node will be allowed to transmit every 133.4s to keep in FUP
 
-On the other hand, the node are still using EU868, overhead of 13 bytes and a payload of 2 byte. This time the node is far from the gateway, this will result in a low RSSI and possibly the SNR are also low. Now the node can expect an SF10.
+On the other hand, the node are using EU868, overhead of 13 bytes and a payload of 2 byte. This time the node is far from the gateway, this will result in a low RSSI and possibly the SNR is also low. Now the node can expect an SF10.
 
 With these conditions the node airtime will be 329.7ms for each uplink. The node will be allowed to transmit every 949.6s to keep in FUP
 
@@ -49,9 +49,11 @@ We have to also take into consideration that if the node is relevantly close to 
 
 With this mentored we are assuming the SF rate to calculate the rate of transmission to keep with in FUP.
 
+![Alt text](images/airtime-calculation.PNG)
+
 ### 1.2 Air Time Calculation via TTN JSON
 
-Once we have our node configured on TTN and it joined the network. We can get the actual airtime form the JSON payload, there are a rich array other data we can actually extract, but lets us now get the actual airtime.
+Once we have our node configured on TTN and it joined the network. We can get the actual airtime form the JSON payload, there are a rich array of other data we can actually extract as well, but lets us get the actual airtime from the JSON.
 
 An example JSON as below.
 
@@ -169,7 +171,7 @@ Calculate total airtime
 
 From the calculation we can see that the total air time we are consuming are well in the limits of FUP, our application are good to go.
 
-The one factor we have not taken into consideration here is if the rssi or SNR deteriorates and the SF adjust to SF11 will we still be compliant?
+The factor we have not taken into consideration here is if the rssi or SNR deteriorates and the SF adjust to SF11 will we still be compliant?
 
 For this we will refer back to the above mentioned site. We will see that the airtime for a SF11 message will increase to 659.5ms. Recalculate now and determine if we are within FUP
 
@@ -189,7 +191,7 @@ Now we are well out of the FUP, to rectify this we need to adjust our Transmit I
 
 From the calculation we can see now we are within the FUP.
 
-From this we can see we need to pay attention as to maintain our network optimally, ensure our node SF stays to the lower range. To enable us to get optimal out nodes rom a point of battery wise, airtime usage and for regularity of uplinks.
+We can see we need to pay attention as to maintain our network optimally, ensure our node SF stays to the lower range. To enable us to get optimal out nodes from a point of battery, airtime usage and for regularity of uplinks.
 
 ## 2. RSSI
 
@@ -198,14 +200,14 @@ When you are in your test environment, please ensure you have sufficient attenua
 
 We recommend that the rssi needs to be -65 dBm to -100 dBm. This can be achieved by having a brick wall or other RF absorbing material between your node and gateway and a physical distance of 5-10m.
 
-We have seen that if the rssi levels are the high and it causes channel bleed. When you are experiencing this you will see in the console the join request from the node. The node will receive the acknowledgment, but will be unable to interpret the message.
+We have seen that if the rssi levels are high and it causes channel bleed. When you are experiencing this you will see an continues join request loop from the node. The node will receive the acknowledgment, but will be unable to interpret the message.
 
 The node will continue to send join request and the node will be in continues loop trying to join the network. And will never be successful.
 
 ### 2.2 RSSI Production Environment
 In the production environment we want to keep our nodes rssi and SNR as high as possible, this is so that the SF stay as low as possible. We want the nodes to connect at SF7 rather than SF8.
 
-By achieve a lower SF we are lowering possibly the transmit power required, less time on the air and less battery usage. This will result in that our nodes will work longer on the same battery charge.
+By achieve a lower SF we are lowering the transmit power required, less time on the air, less battery usage and more regular we can send uplinks. This will result in that our nodes will work longer on the same battery charge.
 
 We still need to take care that the rssi is not the high as this will cause channel bleed, same as explained in 2.1 RSSI Test Environment.
 
@@ -213,7 +215,7 @@ We still need to take care that the rssi is not the high as this will cause chan
 
 ### 3.1 Board Selection
 
-In the platformio.ini we need to select the correct board as to the one we are going to use. I have a TTGO T-Beam V1 so this id the boar I will be using. Make sure you comment  the <platformio.ini board selector guard> and uncomment the appropriate board of your choice.
+In the platformio.ini we need to select the correct board as to the one we are going to use. I have a TTGO T-Beam V1 so this is the boar I will be using. Make sure you comment the <platformio.ini board selector guard> and uncomment the appropriate board of your choice.
 
 ```ini
 [platformio]
@@ -259,7 +261,7 @@ default_envs =
 ```
 
 ### 3.2 MCCI LoRaWAN LMIC library Settings
-In the platformio.ini under the regional setting you need to select the correct frequency plan or your region, I am the 'EU868'. You will see that I have uncommented the appropriate plan.
+In the platformio.ini under the regional setting you need to select the correct frequency plan or your region, I am the 'EU868', I have uncommented the appropriate frequency plan.
 
 ```ini
     ; --- Regional settings -----
@@ -277,14 +279,14 @@ In the platformio.ini under the regional setting you need to select the correct 
 
 ```
 
-Want to give a word of caution here to the settings in US and AUS. Here I have seen a lot of mismatches between the gateway settings and the node. 
+Want to give a word of caution here as to the settings in US and AUS. Here I have seen a lot of mismatches between the gateway settings and the node. 
 
 In the US TTN uses us915 FSB2, '-D CFG_us915=1' please ensure the gateway matches the settings on the node.
 
-In AUS there are 3 different bands, so caution needed here as to the correct band to use. It will be one of '-D CFG_as923=1', -D CFG_as923jp=1 or -D CFG_au915=1. Dependant on the deployed of the gateway it possibly can be any of the 3. Lucky thought a number of community members deploying gateways use duel band ones. Supporting both as923 and au915 bands.
+In AUS there are 3 different bands, so caution needed here as to the correct band to use. It will be one of '-D CFG_as923=1', -D CFG_as923jp=1 or -D CFG_au915=1. Dependant on the deployed of the gateway it possibly can be any of the 3. Lucky thought a number of the community members are deploying gateways that use duel band. Supporting both as923 and au915 bands.
 
 ### 3.3 Board Specific Settings
-In the platformio.ini all the available options you can set on each board are listed separately.
+In the platformio.ini all the available options you can set on the board are listed separately.
 
 As indicated earlier we are using a TTGO T-Beam V1. We can adjust the serial port, power management, OLED use and the pins used.
 
@@ -317,9 +319,9 @@ build_flags =
 ```
 
 ### 3.4 LoRaWAN Keys
-In the keys files folder there is a lorawan-keys_example.h, we need to copy this flie and name the new file lorawan-keys.h.
+In the keyfiles folder there is a lorawan-keys_example.h, we need to copy this file and name the new file lorawan-keys.h.
 
-Here we need to specify the OTAA_DEVEUI, OTAA_APPEUI and OTAA_APPKEY keys since our example are going to be configured in the OTAA mode.
+Here it is need to specify the OTAA_DEVEUI, OTAA_APPEUI and OTAA_APPKEY keys since our example are going to be configured in the OTAA mode.
 
 ```cpp
 // Keys required for OTAA activation:
@@ -334,13 +336,13 @@ Here we need to specify the OTAA_DEVEUI, OTAA_APPEUI and OTAA_APPKEY keys since 
 #define OTAA_APPKEY 0x0F, 0xB0, 0xD8, 0x0B, 0x80, 0x06, 0x0D, 0x00, 0x24, 0x01, 0x70, 0x1A, 0x00, 0x80, 0x6C, 0x0E
 ```
 
-Here we need to pay attention to the order of the bytes. OTAA_DEVEUI and OTAA_APPEUI are both LSB format. And OTAA_APPKEY is in the MSB format.
+It is needed to pay attention to the order of the bytes. OTAA_DEVEUI and OTAA_APPEUI are both LSB format. And OTAA_APPKEY is in the MSB format.
 
 ## 4. TTN Sandbox Settings
 If you don't have a TTN Sandbox account you will need to create one. https://www.thethingsnetwork.org/get-started?login
 
 ### 4.1 TTN Sandbox Application
-Log in and select the console form the top right menu. Select the correct cluster for your project, there are 3 of eu1, nam1 and au1.
+Log in and select the console form the top right menu. Select the correct cluster for your project, there are 3 clusters namely eu1, nam1 and au1.
 
 For my project I will select eu1 as that is the close to my location and will deliver the best performance. Or you can use the drop down menu and 'Select your region'
 
@@ -355,7 +357,7 @@ Then select '+ Create application' at the top right. Here you need to complete t
 ### 4.2 TTN Sandbox Register end device
 In the bottom right of your application select the '+ Register end device'.
 
-There are several methods you can add a device, since our device is a custom one we need to select 'Enter end device specifics manually'.
+There are several methods you can use to add a device, since our device is a custom one we need to select 'Enter end device specifics manually'.
 
 The 'Frequency plan' needs to be 'Europe 863-870 MHz (SF9 for RX2 - recommended)', if you are in a different region select the appropriate one. It needs to match the selection you made 3.2 MCCI LoRaWAN LMIC library Settings.
 
@@ -370,7 +372,7 @@ The 'DevEUI' and the 'AppKey' can also be generated as the post mentioned above.
 
 Now we can update the LoRaWAN keys as we discussed in 3.4 LoRaWAN Keys, need to pay attention to the format and LSB, MSB order of the bytes.
 
-You can use the '<>' and the 'msb' 'lsb' to display and conveniently swap the order of the bytes.
+You can use the '<>' and the 'msb' 'lsb' to display and conveniently swap the order of the bytes in the console.
 ![Alt text](images/ennd-device.PNG)
 
 ### 4.3 Compile and upload to TTGO
@@ -382,3 +384,6 @@ Start the serial monitor and you will see the messages flow.
 ![Alt text](images/join.gif)
 
 ![Alt text](images/application-console-log.PNG)
+
+For more information on the configurations please refer to [Title](LMIC-README.md)
+
