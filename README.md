@@ -385,5 +385,5 @@ Start the serial monitor and you will see the messages flow.
 
 ![Alt text](images/application-console-log.PNG)
 
-For more information on the configurations please refer to [Title](LMIC-README.md)
+For more information on the configurations please refer to [LMIC-README.md](LMIC-README.md)
 
