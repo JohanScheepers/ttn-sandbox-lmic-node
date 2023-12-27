@@ -387,3 +387,4 @@ Start the serial monitor and you will see the messages flow.
 
 For more information on the configurations please refer to [LMIC-README.md](LMIC-README.md)
 
+<video src="images/node_joining.mp4" controls title="Title"></video>
