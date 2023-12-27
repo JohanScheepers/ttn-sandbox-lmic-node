@@ -4,21 +4,21 @@ This is an adaption to LMIC-node to explain how to stay within TTN-Sandbox regul
 
 ## Content
 
-- [1. Fair Use Policy](##1.-fair-use-policy)
-    - [1.1 Air Time Calculation](###1.1-air-time-calculation])
-    - [1.2  Air Time Calculation via TTN JSON](###1.2-air-time-calculation-via-ttn-json)
-- [2. RSSI](##2.-rssi)
-    - [2.1 RSSI Test Environment](###2.1-rssi-test-environment)
-    - [2.2 RSSI Production Environment](###2.2-rssi-production-environment)
-- [3. Settings](##3.-settings)
-    - [3.1 Board Selection](###3.1-board-selection)
-    - [3.2 MCCI LoRaWAN LMIC library Settings](###3.2-mcci-lorawan-lmic-library-settings)
-    - [3.3 Board Specific Settings](###3.3-board-specific-settings)
-    - [3.4 LoRaWAN Keys](###3.4-lorawan-keys)
-- [4. TTN Sandbox Settings](##4.-ttn-sandbox-settings)
-    - [4.1 TTN Sandbox Application](###4.1-ttn-sandbox-application)
-    - [4.2 TTN Sandbox Register end device](###4.2-ttn-sandbox-register-end-device)
-    - [4.3 Compile and upload to TTGO](###4.3-compile-and-upload-to-ttgo)
+- [1. Fair Use Policy](##1-fair-use-policy)
+    - [1.1 Air Time Calculation](###11-air-time-calculation])
+    - [1.2  Air Time Calculation via TTN JSON](###12-air-time-calculation-via-ttn-json)
+- [2. RSSI](##2-rssi)
+    - [2.1 RSSI Test Environment](###21-rssi-test-environment)
+    - [2.2 RSSI Production Environment](###22-rssi-production-environment)
+- [3. Settings](##3-settings)
+    - [3.1 Board Selection](###31-board-selection)
+    - [3.2 MCCI LoRaWAN LMIC library Settings](###32-mcci-lorawan-lmic-library-settings)
+    - [3.3 Board Specific Settings](###33-board-specific-settings)
+    - [3.4 LoRaWAN Keys](###34-lorawan-keys)
+- [4. TTN Sandbox Settings](##4-ttn-sandbox-settings)
+    - [4.1 TTN Sandbox Application](###41-ttn-sandbox-application)
+    - [4.2 TTN Sandbox Register end device](###42-ttn-sandbox-register-end-device)
+    - [4.3 Compile and upload to TTGO](###43-compile-and-upload-to-ttgo)
 
 ## 1. Fair Use Policy
 
