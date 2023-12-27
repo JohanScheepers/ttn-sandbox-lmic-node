@@ -4,19 +4,23 @@ This is an adaption to LMIC-node to explain how to stay within TTN-Sandbox regul
 
 ## Content
 
-- [1 Fair Use Policy](##1-fair-use-policy)
+- [1. Fair Use Policy](##1.-fair-use-policy)
     - [1.1 Air Time Calculation](###1.1-air-time-calculation])
     - [1.2  Air Time Calculation via TTN JSON](###1.2-air-time-calculation-via-ttn-json)
-- [2 RSSI](##2-rssi)
+- [2. RSSI](##2.-rssi)
     - [2.1 RSSI Test Environment](###2.1-rssi-test-environment)
     - [2.2 RSSI Production Environment](###2.2-rssi-production-environment)
-- [3 Settings](##3-settings)
+- [3. Settings](##3.-settings)
     - [3.1 Board Selection](###3.1-board-selection)
     - [3.2 MCCI LoRaWAN LMIC library Settings](###3.2-mcci-lorawan-lmic-library-settings)
     - [3.3 Board Specific Settings](###3.3-board-specific-settings)
     - [3.4 LoRaWAN Keys](###3.4-lorawan-keys)
+- [4. TTN Sandbox Settings](##4.-ttn-sandbox-settings)
+    - [4.1 TTN Sandbox Application](###4.1-ttn-sandbox-application)
+    - [4.2 TTN Sandbox Register end device](###4.2-ttn-sandbox-register-end-device)
+    - [4.3 Compile and upload to TTGO](###4.3-compile-and-upload-to-ttgo)
 
-## 1 Fair Use Policy
+## 1. Fair Use Policy
 
 On The Things Network’s The Things Stack Sandbox a Fair Use Policy applies which limits the uplink airtime to 30 seconds per day (24 hours) per node and the downlink messages to 10 messages per day (24 hours) per node. If you use a private network, these limits do not apply, but you still have to be compliant with the governmental and LoRaWAN limits. https://www.thethingsnetwork.org/docs/lorawan/duty-cycle/#fair-use-policy
 
@@ -187,7 +191,7 @@ From the calculation we can see now we are within the FUP.
 
 From this we can see we need to pay attention as to maintain our network optimally, ensure our node SF stays to the lower range. To enable us to get optimal out nodes rom a point of battery wise, airtime usage and for regularity of uplinks.
 
-## 2 RSSI
+## 2. RSSI
 
 ### 2.1 RSSI Test Environment
 When you are in your test environment, please ensure you have sufficient attenuation between your node and the gateway.
@@ -203,9 +207,9 @@ In the production environment we want to keep our nodes rssi and SNR as high as 
 
 By achieve a lower SF we are lowering possibly the transmit power required, less time on the air and less battery usage. This will result in that our nodes will work longer on the same battery charge.
 
-We still need to take care that the rssi is not the high as this will cause channel bleed, same as explained in [2.1 RSSI Test Environment](###2.1-rssi-test-environment).
+We still need to take care that the rssi is not the high as this will cause channel bleed, same as explained in 2.1 RSSI Test Environment.
 
-## 3 Settings
+## 3. Settings
 
 ### 3.1 Board Selection
 
@@ -331,3 +335,49 @@ Here we need to specify the OTAA_DEVEUI, OTAA_APPEUI and OTAA_APPKEY keys since 
 ```
 
 Here we need to pay attention to the order of the bytes. OTAA_DEVEUI and OTAA_APPEUI are both LSB format. And OTAA_APPKEY is in the MSB format.
+
+## 4. TTN Sandbox Settings
+If you don't have a TTN Sandbox account you will need to create one. https://www.thethingsnetwork.org/get-started?login
+
+### 4.1 TTN Sandbox Application
+Log in and select the console form the top right menu. Select the correct cluster for your project, there are 3 of eu1, nam1 and au1.
+
+For my project I will select eu1 as that is the close to my location and will deliver the best performance. Or you can use the drop down menu and 'Select your region'
+
+![Alt text](images/cluster.PNG)
+
+Select the 'Go to application'
+![Alt text](images/application-gateway.PNG)
+
+Then select '+ Create application' at the top right. Here you need to complete the 'Application ID'(all lower case letters, numbers and dashes (-)), 'Application name' and 'Description'
+![Alt text](images/create-application.PNG)
+
+### 4.2 TTN Sandbox Register end device
+In the bottom right of your application select the '+ Register end device'.
+
+There are several methods you can add a device, since our device is a custom one we need to select 'Enter end device specifics manually'.
+
+The 'Frequency plan' needs to be 'Europe 863-870 MHz (SF9 for RX2 - recommended)', if you are in a different region select the appropriate one. It needs to match the selection you made 3.2 MCCI LoRaWAN LMIC library Settings.
+
+The 'LoRaWAN version' will be 'LoRaWAN Specification 1.0.3'
+
+The 'JoinEUI' can be generated using recommendations as per post in the TTN forum https://www.thethingsnetwork.org/forum/t/deveui-for-non-hardware-assigned-values/2093/23
+
+![Alt text](images/register-end-device-1.PNG)
+
+The 'DevEUI' and the 'AppKey' can also be generated as the post mentioned above. You can specify your own 'End device ID'(all lower case letters, numbers and dashes (-)). And then you just need to select 'Register end device'
+![Alt text](images/register-end-device-2.PNG)
+
+Now we can update the LoRaWAN keys as we discussed in 3.4 LoRaWAN Keys, need to pay attention to the format and LSB, MSB order of the bytes.
+
+You can use the '<>' and the 'msb' 'lsb' to display and conveniently swap the order of the bytes.
+![Alt text](images/ennd-device.PNG)
+
+### 4.3 Compile and upload to TTGO
+Now we can connect the TTGO to the appropriate serial port, compile and upload the sketch to the TTGO.
+
+**You should be up and running now**
+
+Start the serial monitor and you will see the messages flow.
+![Alt text](images/join.gif)
+
