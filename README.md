@@ -1,6 +1,6 @@
 # TTN-Sandbox
 
-This is an adaption to LMIC-node to explain how to stay within TTN-Sandbox regulations.
+This is an adaption to [LMIC-node](https://github.com/lnlp/LMIC-node) to explain how to stay within TTN-Sandbox regulations.
 
 ## Content
 
